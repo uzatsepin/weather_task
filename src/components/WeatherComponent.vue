@@ -9,7 +9,7 @@
         alt="img"
       />
       <div class="weather__temp">
-        <p class="weather__temp-item">{{ roundedTemperature }}&deg;</p>
+        <p class="weather__temp-item">{{ this.weatherData.main.temp }}&deg;</p>
         <p class="weather__temp-descr">
           {{ weatherData.weather[0].description }}
         </p>
@@ -65,18 +65,54 @@
 
 <script>
 import BarComponent from "./BarComponent.vue";
+import axios from "axios";
 export default {
   name: "WeatherComponent",
   components: { BarComponent },
   props: {
-    weatherData: Object,
-    city: Object,
-    time: Object(),
-    temp: Object(),
+    wheatherData: Object,
   },
-  computed: {
-    roundedTemperature() {
-      return Math.round(this.weatherData.main.temp);
+  data() {
+    return {
+      weather: undefined,
+    };
+  },
+  mounted: {
+    fetchCity() {
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${this.city.latitude}&lon=${this.city.longitude}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+        )
+        .then((response) => {
+          this.weather = response.data;
+          axios
+            .get(
+              `http://api.openweathermap.org/data/2.5/forecast?id=${response.data.id}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+            )
+            .then((response) => {
+              const timeTempObjectsArray = Array(response.data.list)[0];
+
+              const times = timeTempObjectsArray
+                .map((x) => x.dt_txt)
+                .slice(0, 7);
+
+              this.time = times.map((date) => {
+                return date.split(" ")[1].split(":").slice(0, 2).join(":");
+              });
+              console.log(this.time);
+
+              const timesLength = this.time.length;
+
+              this.temp = timeTempObjectsArray
+                .map((x) => Math.round(x.main.temp))
+                .slice(0, timesLength);
+              console.log(this.temp);
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 };
