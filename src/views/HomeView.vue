@@ -14,7 +14,11 @@
         v-for="card in GET_WEATHER_CART"
         :key="card.id"
       >
-        <WeatherComponent v-if="card" :weatherData="card" />
+        <WeatherComponent
+          v-if="card"
+          :weatherData="card"
+          @deleteFromCart="deleteFromCart(idx)"
+        />
       </div>
     </div>
   </div>
@@ -34,7 +38,10 @@ export default {
     ...mapGetters(["WEATHER_BY_IP", "GET_WEATHER_CART"]),
   },
   methods: {
-    ...mapActions(["GET_WEATHER_BY_IP"]),
+    ...mapActions(["GET_WEATHER_BY_IP", "DELETE_FROM_CART"]),
+    deleteFromCart(idx) {
+      this.DELETE_FROM_CART(idx);
+    },
   },
   created() {
     this.GET_WEATHER_BY_IP();

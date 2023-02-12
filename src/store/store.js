@@ -36,6 +36,9 @@ const store = createStore({
     SET_WEATHER_TEMP: (state, temp) => {
       state.weatherTemp = temp;
     },
+    REMOVE_FROM_CART: (state, id) => {
+      state.cardsWeather.splice(id, 1);
+    },
   },
   actions: {
     async GET_CITY_FROM_API({ commit, state }) {
@@ -69,6 +72,9 @@ const store = createStore({
           commit("SET_WEATHER_TEMP", tempResult);
         })
         .catch((error) => console.log(error));
+    },
+    DELETE_FROM_CART({ commit }, id) {
+      commit("REMOVE_FROM_CART", id);
     },
   },
   getters: {
