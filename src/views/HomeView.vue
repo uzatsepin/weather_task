@@ -17,7 +17,7 @@
         <WeatherComponent
           v-if="card"
           :weatherData="card"
-          @deleteFromCart="deleteFromCart(idx)"
+          @deleteWeatherFromCart="deleteWeatherFromCart(idx)"
         />
       </div>
     </div>
@@ -38,9 +38,9 @@ export default {
     ...mapGetters(["WEATHER_BY_IP", "GET_WEATHER_CART"]),
   },
   methods: {
-    ...mapActions(["GET_WEATHER_BY_IP", "DELETE_FROM_CART"]),
-    deleteFromCart(idx) {
-      this.DELETE_FROM_CART(idx);
+    ...mapActions(["GET_WEATHER_BY_IP", "DELETE_WEATHER_FROM_CART"]),
+    deleteWeatherFromCart(idx) {
+      this.DELETE_WEATHER_FROM_CART(idx);
     },
   },
   created() {

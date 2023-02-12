@@ -2,7 +2,7 @@
   <div class="weather">
     <h3 class="weather__title">
       {{ weatherData.name }}, {{ weatherData.sys.country }}
-      <button @click="deleteFromCart">x</button>
+      <button @click="deleteWeatherFromCart">x</button>
     </h3>
     <div class="weather__wrapper">
       <img
@@ -90,8 +90,8 @@ export default {
     ...mapGetters(["GET_WEATHER_TIME", "GET_WEATHER_TEMP"]),
   },
   methods: {
-    deleteFromCart() {
-      this.$emit("deleteFromCart");
+    deleteWeatherFromCart() {
+      this.$emit("deleteWeatherFromCart");
     },
   },
 };

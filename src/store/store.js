@@ -36,7 +36,7 @@ const store = createStore({
     SET_WEATHER_TEMP: (state, temp) => {
       state.weatherTemp = temp;
     },
-    REMOVE_FROM_CART: (state, id) => {
+    REMOVE_WEATHER_FROM_CART: (state, id) => {
       state.cardsWeather.splice(id, 1);
     },
   },
@@ -73,8 +73,8 @@ const store = createStore({
         })
         .catch((error) => console.log(error));
     },
-    DELETE_FROM_CART({ commit }, id) {
-      commit("REMOVE_FROM_CART", id);
+    DELETE_WEATHER_FROM_CART({ commit }, id) {
+      commit("REMOVE_WEATHER_FROM_CART", id);
     },
   },
   getters: {
