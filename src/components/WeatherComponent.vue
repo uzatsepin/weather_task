@@ -9,7 +9,9 @@
         alt="img"
       />
       <div class="weather__temp">
-        <p class="weather__temp-item">{{ this.weatherData.main.temp }}&deg;</p>
+        <p class="weather__temp-item">
+          {{ Math.round(this.weatherData.main.temp) }}&deg;
+        </p>
         <p class="weather__temp-descr">
           {{ weatherData.weather[0].description }}
         </p>
@@ -19,45 +21,52 @@
       <div class="weather__info-item">
         <img
           class="weather__info-img"
-          src="../assets/img/temperature-feels-like.svg"
+          src="../assets/img/temperature.svg"
           alt="wind img"
         />
         <p class="weather__info-descr">
+          <span>Відчув. як:</span>
           {{ Math.round(weatherData.main.feels_like) }} &deg;
         </p>
       </div>
       <div class="weather__info-item">
         <img
           class="weather__info-img"
-          src="../assets/img/wind-svgrepo-com.svg"
+          src="../assets/img/wind.svg"
           alt="wind img"
         />
         <p class="weather__info-descr">
-          {{ weatherData.wind.speed }} <span>km/h</span>
+          <span>Швид. вітру</span>
+          {{ weatherData.wind.speed }}
+          <span class="weather__info-speed">km/h</span>
         </p>
       </div>
       <div class="weather__info-item">
         <img
           class="weather__info-img"
-          src="../assets/img/humidity-svgrepo-com.svg"
+          src="../assets/img/humidity.svg"
           alt="wind img"
         />
-        <p class="weather__info-descr">{{ weatherData.main.humidity }} %</p>
+        <p class="weather__info-descr">
+          <span>Волог.</span> {{ weatherData.main.humidity }} %
+        </p>
       </div>
       <div class="weather__info-item">
         <img
           class="weather__info-img"
-          src="../assets/img/weather-rain-snow.svg"
+          src="../assets/img/weather-overcast.svg"
           alt="wind img"
         />
-        <p class="weather__info-descr">12%</p>
+        <p class="weather__info-descr">
+          <span>Видимість</span>{{ weatherData.visibility }} м.
+        </p>
       </div>
     </div>
     <div class="weather__bar">
       <BarComponent
-        v-if="this.time.length > 0 && this.temp.length > 0"
-        :time="this.time"
-        :temp="this.temp"
+        v-if="GET_WEATHER_TIME.length > 0 && GET_WEATHER_TEMP.length > 0"
+        :time="GET_WEATHER_TIME"
+        :temp="GET_WEATHER_TEMP"
       />
     </div>
   </div>
@@ -65,55 +74,15 @@
 
 <script>
 import BarComponent from "./BarComponent.vue";
-import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "WeatherComponent",
   components: { BarComponent },
-  props: {
-    wheatherData: Object,
-  },
   data() {
-    return {
-      weather: undefined,
-    };
+    return {};
   },
-  mounted: {
-    fetchCity() {
-      axios
-        .get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${this.city.latitude}&lon=${this.city.longitude}&appid=a261f3e12828029bf88712debd81e345&units=metric`
-        )
-        .then((response) => {
-          this.weather = response.data;
-          axios
-            .get(
-              `http://api.openweathermap.org/data/2.5/forecast?id=${response.data.id}&appid=a261f3e12828029bf88712debd81e345&units=metric`
-            )
-            .then((response) => {
-              const timeTempObjectsArray = Array(response.data.list)[0];
-
-              const times = timeTempObjectsArray
-                .map((x) => x.dt_txt)
-                .slice(0, 7);
-
-              this.time = times.map((date) => {
-                return date.split(" ")[1].split(":").slice(0, 2).join(":");
-              });
-              console.log(this.time);
-
-              const timesLength = this.time.length;
-
-              this.temp = timeTempObjectsArray
-                .map((x) => Math.round(x.main.temp))
-                .slice(0, timesLength);
-              console.log(this.temp);
-            })
-            .catch((error) => console.log(error));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+  computed: {
+    ...mapGetters(["GET_WEATHER_TIME", "GET_WEATHER_TEMP"]),
   },
 };
 </script>
@@ -121,14 +90,15 @@ export default {
 <style>
 @import "../assets/styles/styles.css";
 .weather {
-  margin-top: 50px;
-  padding: 30px;
+  margin-top: 30px;
+  padding: 20px;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease-in-out;
+  max-width: 335px;
 }
 .weather:hover {
   transform: scale(1.02);
@@ -156,11 +126,13 @@ export default {
   font-size: 14px;
 }
 .weather__info {
-  margin-top: 30px;
+  margin: 30px auto 0 auto;
   display: flex;
-  gap: 40px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 210px;
+  gap: 20px 30px;
 }
 .weather__info-item {
   display: flex;
@@ -174,8 +146,20 @@ export default {
 .weather__info-descr {
   margin-top: 10px;
   font-size: 16px;
+  text-align: center;
 }
 .weather__bar {
   margin-top: 20px;
+}
+.weather__info {
+  font-size: 12px;
+  text-align: left;
+}
+.weather__info-descr span {
+  display: block;
+  font-size: 12px;
+  color: #bfbfc1;
+  text-align: center;
+  margin-bottom: 5px;
 }
 </style>

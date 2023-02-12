@@ -1,12 +1,26 @@
 <template>
   <div class="home">
-    {{ weatherData }}
-    <InputAutocomplete @cityData="receiveCityData" />
+    <InputAutocomplete />
     <div class="weather__view">
-      <template v-if="weatherData != undefined">
-        <WeatherComponent :weatherData="city" />
-        <WeatherComponent :weatherData="city" />
-      </template>
+      <h3 class="weather__view-title">
+        *Інформація про погоду взята на основі вашої IP-адерси
+      </h3>
+      <WeatherComponent
+        v-if="Object.keys(WEATHER_BY_IP).length"
+        :weatherData="WEATHER_BY_IP"
+      />
+    </div>
+    <div class="weather__inner" v-if="GET_WEATHER_CART">
+      <div
+        class="weather__cards"
+        v-for="card in GET_WEATHER_CART"
+        :key="card.id"
+      >
+        <WeatherComponent
+          v-if="Object.keys(GET_WEATHER_CART).length"
+          :weatherData="card"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -14,48 +28,29 @@
 <script>
 import InputAutocomplete from "@/components/InputAutocomplete.vue";
 import WeatherComponent from "@/components/WeatherComponent.vue";
-import axios from "axios";
-
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "HomeView",
   components: {
     InputAutocomplete,
     WeatherComponent,
   },
-  data() {
-    return {
-      city: [],
-      weatherData: undefined,
-      time: Object(),
-      temp: Object(),
-      geoCodeIp: undefined,
-      weatherByDefault: undefined,
-    };
+  computed: {
+    ...mapGetters(["WEATHER_BY_IP", "GET_WEATHER_CART"]),
   },
   methods: {
-    receiveCityData(cityData) {
-      this.city = cityData;
-    },
+    ...mapActions(["GET_WEATHER_BY_IP"]),
   },
-  mounted() {
-    {
-      axios
-        .get("https://ipapi.co/json/")
-        .then((response) => (this.weatherByDefault = response.data))
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  created() {
+    this.GET_WEATHER_BY_IP();
   },
 };
 </script>
 
 <style>
-.weather__view {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+.weather__view-title {
+  display: block;
+  font-size: 18px;
+  margin-top: 20px;
 }
 </style>

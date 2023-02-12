@@ -1,6 +1,5 @@
 <template>
   <Line id="my-chart-id" :options="chartOptions" :data="chartData" />
-  {{ this.temp }}
 </template>
 
 <script>
@@ -56,26 +55,5 @@ export default {
       };
     },
   },
-  // data() {
-  //   return {
-  //     chartData: {
-  //       labels: this.time,
-  //       datasets: [
-  //         {
-  //           data: this.temp,
-  //           label: `Температура °`,
-  //           backgroundColor: "#f87979",
-  //         },
-  //       ],
-  //     },
-  //     chartOptions: {
-  //       label: "My First Dataset",
-  //       responsive: true,
-  //       backgroundColor: "#f87979",
-  //       borderColor: "#f87979",
-  //       fill: false,
-  //     },
-  //   };
-  // },
 };
 </script>

@@ -42,7 +42,7 @@
   cursor: pointer;
   padding: 12px 24px;
   transition: all 0.1s ease-in-out;
-  border: 1px solid #8ecae6;
+  border: 1px solid #e1e1e1;
   border-right: none;
   background-color: #003566;
   border-radius: 0 0 0 0;
@@ -51,7 +51,7 @@
   text-decoration: none;
 }
 .nav__link:last-child {
-  border-right: 1px solid #8ecae6;
+  border-right: 1px solid #e1e1e1;
 }
 .nav__link:hover {
   background-color: #ffb703;
@@ -65,7 +65,7 @@
 }
 .main {
   padding: 30px;
-  border: 1px solid #8ecae6;
+  border: 1px solid #e1e1e1;
   border-radius: 0px;
   box-shadow: 3px 3px 6px #e1e1e1;
 }
