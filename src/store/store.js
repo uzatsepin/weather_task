@@ -37,7 +37,9 @@ const store = createStore({
       state.weatherTemp = temp;
     },
     REMOVE_WEATHER_FROM_CART: (state, id) => {
-      state.cardsWeather.splice(id, 1);
+      if (state.cardsWeather) {
+        state.cardsWeather.splice(id, 1);
+      }
     },
   },
   actions: {

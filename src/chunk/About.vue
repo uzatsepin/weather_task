@@ -1,22 +1,22 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <button @click="openModal">Open Modal</button>
     <ModalComponent :isVisible="isModalVisible" @close="closeModal" />
+
+    <button @click="openModal">modal</button>
   </div>
 </template>
 
 <script>
 import ModalComponent from "@/components/ModalComponent.vue";
 export default {
-  name: "AboutView",
-  components: {
-    ModalComponent,
-  },
   data() {
     return {
       isModalVisible: false,
     };
+  },
+  components: {
+    ModalComponent,
   },
   methods: {
     openModal() {
