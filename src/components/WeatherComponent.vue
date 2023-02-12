@@ -2,6 +2,7 @@
   <div class="weather">
     <h3 class="weather__title">
       {{ weatherData.name }}, {{ weatherData.sys.country }}
+      <button>x</button>
     </h3>
     <div class="weather__wrapper">
       <img
@@ -78,8 +79,12 @@ import { mapGetters } from "vuex";
 export default {
   name: "WeatherComponent",
   components: { BarComponent },
-  data() {
-    return {};
+
+  props: {
+    weatherData: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters(["GET_WEATHER_TIME", "GET_WEATHER_TEMP"]),
@@ -89,6 +94,7 @@ export default {
 
 <style>
 @import "../assets/styles/styles.css";
+
 .weather {
   margin-top: 30px;
   padding: 20px;

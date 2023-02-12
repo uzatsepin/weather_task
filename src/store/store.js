@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createStore } from "vuex";
 import { getCity } from "../api/getCityApi.js";
-import weatherService from "../api/weather.js";
+import getWeatherByIp from "../api/getWeatherByIp.js";
 import axios from "axios";
 
 const store = createStore({
@@ -44,7 +44,7 @@ const store = createStore({
       commit("SET_CITY_NAME", response);
     },
     async GET_WEATHER_BY_IP({ commit }) {
-      await weatherService.getWeatherByIP({ commit });
+      await getWeatherByIp.getWeatherByIP({ commit });
     },
     async GET_WEATHER_FROM_INPUT({ commit }) {
       const response = await axios.get(
