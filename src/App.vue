@@ -5,7 +5,7 @@
     </div>
     <nav class="nav">
       <router-link class="nav__link" to="/">Головна</router-link>
-      <router-link class="nav__link" to="/about"
+      <router-link class="nav__link" to="/favourites"
         >Обране
         <span v-if="GET_WEATHER_CART.length >= 1"
           >({{ GET_WEATHER_CART.length }})</span

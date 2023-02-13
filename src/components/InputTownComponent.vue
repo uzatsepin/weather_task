@@ -45,17 +45,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["CITY_NAME", "GET_CITY_INPUT_NAME", "GET_CITY_FOR_WEATHER"]),
+    ...mapGetters(["CITY_NAME"]),
     ...mapState({
       message: (state) => state.updateMessage,
     }),
   },
   methods: {
-    ...mapActions([
-      "GET_CITY_FROM_API",
-      "GET_CLIENT_INFO",
-      "GET_WEATHER_FROM_INPUT",
-    ]),
+    ...mapActions(["GET_CITY_FROM_API", "GET_WEATHER_FROM_INPUT"]),
     updateMessage(e) {
       this.$store.commit("UPDATE_INPUT", e.target.value);
       if (this.inputValue.length > 2) {

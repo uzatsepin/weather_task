@@ -1,6 +1,6 @@
 <template>
   <div class="favourites">
-    <h2 class="favourites__title">Тут ви будуть обрані картки з погодою</h2>
+    <h2 class="favourites__title">Тут ваші будуть обрані картки з погодою</h2>
     <div class="favourites__inner">
       <div
         class="favourites__cards"

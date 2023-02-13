@@ -142,12 +142,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([
-      "GET_WEATHER_TIME",
-      "GET_WEATHER_TEMP",
-      "GET_CITY_FOR_WEATHER",
-      "GET_WEATHER_CART",
-    ]),
+    ...mapGetters(["GET_WEATHER_CART"]),
   },
   methods: {
     openModal() {
