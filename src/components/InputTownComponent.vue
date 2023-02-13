@@ -70,7 +70,7 @@ export default {
 
     selectCity(city) {
       this.$store.commit("SET_CITY_FOR_WEATHER", city);
-      this.inputValue = "";
+      this.inputValue = city.name;
       this.isActive = true;
       this.GET_WEATHER_FROM_INPUT(city);
     },
