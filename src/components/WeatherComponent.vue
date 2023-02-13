@@ -115,9 +115,8 @@
     </div>
     <div class="weather__bar">
       <BarComponent
-        v-if="GET_WEATHER_TIME.length > 0 && GET_WEATHER_TEMP.length > 0"
-        :time="GET_WEATHER_TIME"
-        :temp="GET_WEATHER_TEMP"
+        :time="weatherData.weatherTime"
+        :temp="weatherData.weatherTemp"
       />
     </div>
   </div>

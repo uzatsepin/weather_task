@@ -9,7 +9,6 @@ export default {
       const weatherResponse = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER}&units=metric`
       );
-      commit("SET_WEATHER_BY_IP", weatherResponse.data);
       axios
         .get(
           `http://api.openweathermap.org/data/2.5/forecast?id=${weatherResponse.data.id}&appid=${process.env.VUE_APP_WEATHER}&units=metric`
@@ -27,12 +26,13 @@ export default {
           const timeResult = times.map((time) => {
             return time.split(" ")[1].split(":").slice(0, 2).join(":");
           });
-          commit("SET_WEATHER_TIME", timeResult);
-          const timesLength = timeResult.length;
+          weatherResponse.data.weatherTime = timeResult;
+          // const timesLength = timeResult.length;
           const tempResult = timeTempObjectsArray
             .map((x) => Math.round(x.main.temp))
-            .slice(0, timesLength);
-          commit("SET_WEATHER_TEMP", tempResult);
+            .slice(0, 7);
+          weatherResponse.data.weatherTemp = tempResult;
+          commit("SET_WEATHER_BY_IP", weatherResponse.data);
         })
         .catch((error) => console.log(error));
     } catch (error) {
