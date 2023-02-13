@@ -1,11 +1,17 @@
 <template>
   <div class="home">
-    <InputTownComponent />
+    <!-- <InputTownComponent /> -->
+
+    <button @click="addAnEmptyCard">add</button>
     <div class="weather__view" v-if="WEATHER_BY_IP">
       <h3 class="weather__view-title">
         *Інформація про погоду взята на основі вашої IP-адерси
       </h3>
-      <WeatherComponent v-if="WEATHER_BY_IP" :weatherData="WEATHER_BY_IP" />
+      <WeatherComponent
+        v-if="WEATHER_BY_IP"
+        :weatherData="WEATHER_BY_IP"
+        :isStatic="true"
+      />
     </div>
     <h3 class="weather__view-title">Картки з обраними містами:</h3>
     <div class="weather__inner" v-if="GET_WEATHER_CART.length">
@@ -21,13 +27,13 @@
 </template>
 
 <script>
-import InputTownComponent from "@/components/InputTownComponent.vue";
+// import InputTownComponent from "@/components/InputTownComponent.vue";
 import WeatherComponent from "@/components/WeatherComponent.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "HomeView",
   components: {
-    InputTownComponent,
+    // InputTownComponent,
     WeatherComponent,
   },
   computed: {
@@ -35,6 +41,9 @@ export default {
   },
   methods: {
     ...mapActions(["GET_WEATHER_BY_IP"]),
+    addAnEmptyCard() {
+      this.$dispatch("");
+    },
   },
   created() {
     this.GET_WEATHER_BY_IP();
