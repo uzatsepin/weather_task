@@ -7,12 +7,12 @@ export default {
       const lat = ipResponse.data.latitude;
       const lon = ipResponse.data.longitude;
       const weatherResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER}&units=metric`
       );
       commit("SET_WEATHER_BY_IP", weatherResponse.data);
       axios
         .get(
-          `http://api.openweathermap.org/data/2.5/forecast?id=${weatherResponse.data.id}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+          `http://api.openweathermap.org/data/2.5/forecast?id=${weatherResponse.data.id}&appid=${process.env.VUE_APP_WEATHER}&units=metric`
         )
         .then((response) => {
           const date = new Date();

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <InputAutocomplete />
+    <InputTownComponent />
     <div class="weather__view" v-if="WEATHER_BY_IP">
       <h3 class="weather__view-title">
         *Інформація про погоду взята на основі вашої IP-адерси
@@ -14,34 +14,27 @@
         v-for="card in GET_WEATHER_CART"
         :key="card.id"
       >
-        <WeatherComponent
-          v-if="card"
-          :weatherData="card"
-          @deleteWeatherFromCart="deleteWeatherFromCart(idx)"
-        />
+        <WeatherComponent v-if="card" :weatherData="card" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import InputAutocomplete from "@/components/InputAutocomplete.vue";
+import InputTownComponent from "@/components/InputTownComponent.vue";
 import WeatherComponent from "@/components/WeatherComponent.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "HomeView",
   components: {
-    InputAutocomplete,
+    InputTownComponent,
     WeatherComponent,
   },
   computed: {
     ...mapGetters(["WEATHER_BY_IP", "GET_WEATHER_CART"]),
   },
   methods: {
-    ...mapActions(["GET_WEATHER_BY_IP", "DELETE_WEATHER_FROM_CART"]),
-    deleteWeatherFromCart(idx) {
-      this.DELETE_WEATHER_FROM_CART(idx);
-    },
+    ...mapActions(["GET_WEATHER_BY_IP"]),
   },
   created() {
     this.GET_WEATHER_BY_IP();
@@ -52,11 +45,13 @@ export default {
 <style>
 .weather__view-title {
   display: block;
-  font-size: 18px;
+  font-size: 14px;
   margin-top: 20px;
+  font-weight: normal;
 }
 .weather__inner {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0 20px;
 }
 </style>

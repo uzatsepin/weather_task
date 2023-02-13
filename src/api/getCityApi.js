@@ -5,7 +5,7 @@ export const getCity = async (name) => {
     const response = await axios({
       method: "GET",
       url: `https://api.api-ninjas.com/v1/city?name=${name}&limit=10`,
-      headers: { "X-Api-Key": "tv8o567aIuoI+73uheVF5w==L2l20V7RfeDmwVBz" },
+      headers: { "X-Api-Key": `${process.env.VUE_APP_CITY}` },
     });
     return response.data;
   } catch (error) {

@@ -1,0 +1,126 @@
+.weather {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease-in-out;
+  max-width: 335px;
+}
+.weather:hover {
+  transform: scale(1.02);
+}
+
+.weather__title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weather__wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+  align-items: center;
+}
+.weather__temp-item {
+  font-size: 42px;
+  font-weight: lighter;
+}
+.weather__temp-descr {
+  color: #bfbfc1;
+  font-size: 14px;
+}
+.weather__info {
+  margin: 30px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 210px;
+  gap: 20px 30px;
+  font-size: 12px;
+  text-align: left;
+}
+.weather__info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.weather__info-img {
+  width: 26px;
+  height: auto;
+}
+.weather__info-descr {
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+  max-width: 120px;
+}
+.weather__info-descr span {
+  color: #bfbfc1;
+  font-size: 14px;
+  display: block;
+}
+.weather__bar {
+  margin-top: 20px;
+}
+
+.weather__btn-delete {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 25px;
+  border: 2px solid #f87979;
+  background-color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 5px #333;
+  overflow: hidden;
+  transition: 0.3s;
+  margin-left: 10px;
+}
+.weather__btn-delete:hover {
+  background-color: rgb(245, 207, 207);
+  transform: scale(1.2);
+  box-shadow: 0 0 4px #111;
+  transition: 0.3s;
+}
+.weather__btn-delete svg {
+  color: #f87979;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
+  width: 15px;
+  height: 15px;
+}
+.weather__btn-delete:focus {
+  transition: 0.3s;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 390px) {
+  .weather {
+    max-width: 250px;
+    margin: 30px auto;
+  }
+  .weather__btn-delete {
+    height: 30px;
+    width: 30px;
+  }
+  .weather__btn-delete svg {
+    height: 15px;
+    width: 15px;
+  }
+  .weather__title {
+    align-items: unset;
+    margin-left: 10px;
+  }
+}

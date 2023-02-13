@@ -39,6 +39,7 @@ export default {
   margin: 0 auto;
   text-align: center;
   font-size: 28px;
+  margin: 50px auto;
 }
 .logo__text {
   color: #023047;
@@ -58,7 +59,7 @@ export default {
   transition: all 0.1s ease-in-out;
   border: 1px solid #e1e1e1;
   border-right: none;
-  background-color: #003566;
+  background-color: #088c74;
   border-radius: 0 0 0 0;
   font-weight: bold;
   color: white;
@@ -68,7 +69,7 @@ export default {
   border-right: 1px solid #e1e1e1;
 }
 .nav__link:hover {
-  background-color: #fb8500;
+  background-color: #4aae9b;
   color: #fff;
 }
 .router-link-exact-active {

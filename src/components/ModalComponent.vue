@@ -8,8 +8,10 @@
             <h3 class="popup__title">Ви впевнені, що хочете видалити?</h3>
           </div>
           <div class="popup__btns">
-            <button class="popup__ok-btn">Так</button>
-            <button class="popup__cancel-btn">Ні</button>
+            <button class="popup__ok-btn" @click="emitDeleteWeatherFromCart()">
+              Так
+            </button>
+            <button class="popup__cancel-btn" @click="closeModal">Ні</button>
           </div>
         </div>
       </div>
@@ -18,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "ModalComponent",
   props: {
@@ -26,7 +29,11 @@ export default {
       required: true,
     },
   },
+  ...mapGetters(["GET_WEATHER_CART"]),
   methods: {
+    emitDeleteWeatherFromCart() {
+      this.$emit("deleteWeatherFromCart");
+    },
     closeModal() {
       this.$emit("close");
     },
@@ -35,96 +42,5 @@ export default {
 </script>
 
 <style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.popup-modal {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  z-index: 1;
-}
-
-.popup__window {
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
-}
-.popup__btns {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.popup__ok-btn {
-  padding: 0.5em 1em;
-  background-color: #d5eae7;
-  color: #35907f;
-  border: 2px solid #0ec5a4;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 16px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.popup__cancel-btn {
-  padding: 0.5em 1em;
-  background-color: #fe6d73;
-  color: #ffffff;
-  border: 2px solid #ff3c42;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 16px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.popup__ok-btn:active,
-.popup__cancel-btn:active {
-  transition: 0.3s;
-  transform: translateY(-3px);
-}
-
-.popup__btn {
-  float: right;
-  border: none;
-  margin: 0;
-  padding: 7px 8px;
-  width: 30px;
-  color: #ffffff;
-  overflow: visible;
-  background: #415969;
-  border-radius: 100%;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-.popup__btn:hover {
-  background: #0d344c;
-}
-
-.popup__btn:active {
-  transition: 0.3s;
-  transform: translateY(-3px);
-}
-
-.popup__title {
-  text-align: center;
-}
+@import "../assets/styles/stylesComponent/popupStyle.css";
 </style>

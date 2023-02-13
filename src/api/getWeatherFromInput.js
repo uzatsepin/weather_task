@@ -2,12 +2,12 @@ import axios from "axios";
 
 export const getWeatherFromInput = async ({ commit }) => {
   const response = await axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.cityForWeather.latitude}&lon=${this.state.cityForWeather.longitude}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.cityForWeather.latitude}&lon=${this.state.cityForWeather.longitude}&appid=${process.env.VUE_APP_WEATHER}&units=metric`
   );
   commit("SET_WEATHER_CART", response.data);
   axios
     .get(
-      `http://api.openweathermap.org/data/2.5/forecast?id=${response.data.id}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+      `http://api.openweathermap.org/data/2.5/forecast?id=${response.data.id}&appid=${process.env.VUE_APP_WEATHER}&units=metric`
     )
     .then((response) => {
       const timeTempObjectsArray = Array(response.data.list)[0];
