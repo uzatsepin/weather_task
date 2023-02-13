@@ -5,7 +5,10 @@
         <div class="popup__content" @keyup.esc="closeModal">
           <div class="popup__inner">
             <button class="popup__btn" @click="closeModal">X</button>
-            <h3 class="popup__title">Ви впевнені, що хочете видалити?</h3>
+            <h3 class="popup__title">
+              Ви впевнені, що хочете видалити місто
+              {{ weatherData ? weatherData.name : null }} ?
+            </h3>
           </div>
           <div class="popup__btns">
             <button class="popup__ok-btn" @click="emitDeleteWeatherFromCart()">
@@ -26,6 +29,10 @@ export default {
   props: {
     isVisible: {
       type: Boolean,
+      required: true,
+    },
+    weatherData: {
+      type: Object,
       required: true,
     },
   },

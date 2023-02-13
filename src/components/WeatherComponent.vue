@@ -3,6 +3,7 @@
     :isVisible="isModalVisible"
     @close="closeModal"
     @deleteWeatherFromCart="deleteWeatherFromCartHandler"
+    :weatherData="weatherData"
   />
   <div class="weather">
     <h3 class="weather__title">
