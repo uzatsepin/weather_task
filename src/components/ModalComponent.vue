@@ -33,6 +33,7 @@ export default {
   methods: {
     emitDeleteWeatherFromCart() {
       this.$emit("deleteWeatherFromCart");
+      this.closeModal();
     },
     closeModal() {
       this.$emit("close");
