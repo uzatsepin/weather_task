@@ -11,7 +11,10 @@
             </h3>
           </div>
           <div class="popup__btns">
-            <button class="popup__ok-btn" @click="emitDeleteWeatherFromCart()">
+            <button
+              class="popup__ok-btn"
+              @click="deleteWeather(`${weatherData ? weatherData.name : null}`)"
+            >
               Так
             </button>
             <button class="popup__cancel-btn" @click="closeModal">Ні</button>
@@ -44,6 +47,9 @@ export default {
     },
     closeModal() {
       this.$emit("close");
+    },
+    deleteWeather(name) {
+      this.$store.dispatch("DELETE_WEATHER_FROM_CART", name);
     },
   },
 };
