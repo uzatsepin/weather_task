@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createStore } from "vuex";
 import { getCity } from "../api/getCityApi.js";
 import getWeatherByIp from "../api/getWeatherByIp.js";
-import axios from "axios";
+import getWeatherFromInput from "@/api/getWeatherFromInput.js";
 
 const store = createStore({
   state: {
@@ -10,7 +10,10 @@ const store = createStore({
     cityName: "",
     cityForWeather: "",
     weatherByIp: [],
-    cardsWeather: [],
+    weatherCards: [],
+    isWeatherCardLoading: false,
+    isCitiesLoading: false,
+    emptyCard: [],
   },
   mutations: {
     UPDATE_INPUT(state, inputText) {
@@ -26,7 +29,7 @@ const store = createStore({
       state.weatherByIp = weather;
     },
     SET_WEATHER_CART: (state, card) => {
-      state.cardsWeather.push(card);
+      state.weatherCards.push(card);
     },
     SET_WEATHER_TIME: (state, time) => {
       state.weatherTime = time;
@@ -35,42 +38,39 @@ const store = createStore({
       state.weatherTemp = temp;
     },
     REMOVE_WEATHER_FROM_CART: (state, name) => {
-      state.cardsWeather = state.cardsWeather.filter(
+      state.weatherCards = state.weatherCards.filter(
         (element) => element.name !== name
       );
+    },
+    SET_IS_CITY_LOADING: (state, status) => {
+      state.isCitiesLoading = status;
+    },
+    SET_IS_CART_LOADING: (state, status) => {
+      state.isWeatherCardLoading = status;
     },
   },
   actions: {
     async GET_CITY_FROM_API({ commit, state }) {
+      commit("SET_IS_CITY_LOADING", true);
       const cityName = state?.cityNameFromInput;
       const response = await getCity(cityName);
       commit("SET_CITY_NAME", response);
+      commit("SET_IS_CITY_LOADING", false);
     },
     async GET_WEATHER_BY_IP({ commit }) {
-      await getWeatherByIp.getWeatherByIP({ commit });
+      commit("SET_IS_CART_LOADING", true);
+      const response = await getWeatherByIp.getWeatherByIP();
+      commit("SET_WEATHER_BY_IP", response.data);
+      commit("SET_IS_CART_LOADING", false);
     },
     async GET_WEATHER_FROM_INPUT({ commit }) {
-      const weatherResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.cityForWeather.latitude}&lon=${this.state.cityForWeather.longitude}&appid=a261f3e12828029bf88712debd81e345&units=metric`
+      commit("SET_IS_CART_LOADING", true);
+      const response = await getWeatherFromInput.getWeatherFromInput(
+        this.state.cityForWeather.latitude,
+        this.state.cityForWeather.longitude
       );
-      axios
-        .get(
-          `http://api.openweathermap.org/data/2.5/forecast?id=${weatherResponse.data.id}&appid=a261f3e12828029bf88712debd81e345&units=metric`
-        )
-        .then((response) => {
-          const timeTempObjectsArray = Array(response.data.list)[0];
-          const times = timeTempObjectsArray.map((x) => x.dt_txt).slice(0, 7);
-          const timeResult = times.map((date) => {
-            return date.split(" ")[1].split(":").slice(0, 2).join(":");
-          });
-          weatherResponse.data.weatherTime = timeResult;
-          const tempResult = timeTempObjectsArray
-            .map((x) => Math.round(x.main.temp))
-            .slice(0, 7);
-          weatherResponse.data.weatherTemp = tempResult;
-          commit("SET_WEATHER_CART", weatherResponse.data);
-        })
-        .catch((error) => console.log(error));
+      commit("SET_WEATHER_CART", response.data);
+      commit("SET_IS_CART_LOADING", false);
     },
     DELETE_WEATHER_FROM_CART({ commit }, name) {
       commit("REMOVE_WEATHER_FROM_CART", name);
@@ -90,17 +90,23 @@ const store = createStore({
       return state.cityForWeather;
     },
     GET_WEATHER_CART(state) {
-      return state.cardsWeather;
+      return state.weatherCards;
     },
     GET_WEATHER_TIME: (state, long, lat) => {
-      return state.cardsWeather.filter(
+      return state.weatherCards.filter(
         (x) => x.latitude == lat && x.longitude == long
       )[0];
     },
     GET_WEATHER_TEMP: (state, long, lat) => {
-      return state.cardsWeather.filter(
+      return state.weatherCards.filter(
         (x) => x.latitude == lat && x.longitude == long
       )[0];
+    },
+    GET_IS_CITY_LOADING: (state) => {
+      return state.isCitiesLoading;
+    },
+    GET_IS_CART_LOADING: (state) => {
+      return state.isWeatherCardLoading;
     },
   },
 });

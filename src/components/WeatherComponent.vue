@@ -4,15 +4,14 @@
     @close="closeModal"
     :weatherData="weatherData"
   />
-  <div class="weather" v-if="weatherData">
+  <div v-if="GET_IS_CART_LOADING">
+    <img src="../assets/img/Spinner-1s-200px.svg" alt="Loading" />
+  </div>
+  <div v-else class="weather">
     <h3 class="weather__title">
       {{ weatherData.name }},
       {{ weatherData && weatherData.sys ? weatherData.sys.country : null }}
-      <button
-        class="weather__btn-delete"
-        @click="openModal"
-        v-if="GET_WEATHER_CART.length >= 1"
-      >
+      <button class="weather__btn-delete" @click="openModal" v-if="!isStatic">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -140,9 +139,13 @@ export default {
       type: Object,
       required: true,
     },
+    isStatic: {
+      type: Boolean,
+      required: false,
+    },
   },
   computed: {
-    ...mapGetters(["GET_WEATHER_CART"]),
+    ...mapGetters(["GET_IS_CART_LOADING"]),
   },
   methods: {
     openModal() {

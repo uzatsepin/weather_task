@@ -5,7 +5,11 @@
       <h3 class="weather__view-title">
         *Інформація про погоду взята на основі вашої IP-адерси
       </h3>
-      <WeatherComponent v-if="WEATHER_BY_IP" :weatherData="WEATHER_BY_IP" />
+      <WeatherComponent
+        v-if="WEATHER_BY_IP"
+        :weatherData="WEATHER_BY_IP"
+        :isStatic="true"
+      />
     </div>
     <h3 class="weather__view-title">Картки з обраними містами:</h3>
     <div class="weather__inner" v-if="GET_WEATHER_CART.length">
