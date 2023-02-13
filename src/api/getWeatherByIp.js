@@ -27,7 +27,6 @@ export default {
             return time.split(" ")[1].split(":").slice(0, 2).join(":");
           });
           weatherResponse.data.weatherTime = timeResult;
-          // const timesLength = timeResult.length;
           const tempResult = timeTempObjectsArray
             .map((x) => Math.round(x.main.temp))
             .slice(0, 7);

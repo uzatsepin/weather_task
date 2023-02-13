@@ -11,8 +11,6 @@ const store = createStore({
     cityForWeather: "",
     weatherByIp: [],
     cardsWeather: [],
-    // weatherTime: [],
-    // weatherTemp: [],
   },
   mutations: {
     UPDATE_INPUT(state, inputText) {
@@ -65,14 +63,11 @@ const store = createStore({
           const timeResult = times.map((date) => {
             return date.split(" ")[1].split(":").slice(0, 2).join(":");
           });
-          console.log(timeResult);
           weatherResponse.data.weatherTime = timeResult;
           const tempResult = timeTempObjectsArray
             .map((x) => Math.round(x.main.temp))
             .slice(0, 7);
-          console.log(tempResult);
           weatherResponse.data.weatherTemp = tempResult;
-          // commit("SET_WEATHER_TEMP", tempResult);
           commit("SET_WEATHER_CART", weatherResponse.data);
         })
         .catch((error) => console.log(error));

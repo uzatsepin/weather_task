@@ -45,7 +45,6 @@ export default {
     deleteWeather(name) {
       this.$store.dispatch("DELETE_WEATHER_FROM_CART", name);
       this.closeModal();
-      console.log(`deleted city – ${name}`);
     },
   },
 };

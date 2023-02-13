@@ -42,7 +42,6 @@ export default {
     return {
       inputValue: "",
       isActive: true,
-      isLoading: true,
     };
   },
   computed: {

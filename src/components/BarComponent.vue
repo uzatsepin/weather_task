@@ -47,7 +47,7 @@ export default {
     },
     chartOptions() {
       return {
-        label: "My First Dataset",
+        label: "Dataset",
         responsive: true,
         backgroundColor: "#f87979",
         borderColor: "#f87979",
