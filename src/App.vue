@@ -5,13 +5,27 @@
     </div>
     <nav class="nav">
       <router-link class="nav__link" to="/">Головна</router-link>
-      <router-link class="nav__link" to="/about">Обране</router-link>
+      <router-link class="nav__link" to="/about"
+        >Обране
+        <span v-if="GET_WEATHER_CART.length >= 1"
+          >({{ GET_WEATHER_CART.length }})</span
+        ></router-link
+      >
     </nav>
     <main class="main">
       <router-view />
     </main>
   </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters(["GET_WEATHER_CART"]),
+  },
+};
+</script>
 
 <style>
 @import "./assets/styles/styles.css";
@@ -47,14 +61,14 @@
   background-color: #003566;
   border-radius: 0 0 0 0;
   font-weight: bold;
-  color: #ffd60a;
+  color: white;
   text-decoration: none;
 }
 .nav__link:last-child {
   border-right: 1px solid #e1e1e1;
 }
 .nav__link:hover {
-  background-color: #ffb703;
+  background-color: #fb8500;
   color: #fff;
 }
 .router-link-exact-active {
