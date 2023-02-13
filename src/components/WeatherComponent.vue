@@ -2,10 +2,9 @@
   <ModalComponent
     :isVisible="isModalVisible"
     @close="closeModal"
-    @deleteWeatherFromCart="deleteWeatherFromCartHandler"
     :weatherData="weatherData"
   />
-  <div class="weather">
+  <div class="weather" v-if="weatherData">
     <h3 class="weather__title">
       {{ weatherData.name }},
       {{ weatherData && weatherData.sys ? weatherData.sys.country : null }}
@@ -126,7 +125,7 @@
 
 <script>
 import BarComponent from "./BarComponent.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import ModalComponent from "./ModalComponent.vue";
 export default {
   name: "WeatherComponent",
@@ -134,6 +133,7 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      isLoading: true,
     };
   },
   props: {
@@ -151,12 +151,6 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions(["DELETE_WEATHER_FROM_CART"]),
-
-    deleteWeatherFromCartHandler(idx) {
-      this.DELETE_WEATHER_FROM_CART(idx);
-    },
-
     openModal() {
       this.isModalVisible = true;
     },

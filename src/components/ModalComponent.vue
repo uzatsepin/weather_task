@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "ModalComponent",
   props: {
@@ -39,17 +38,14 @@ export default {
       required: true,
     },
   },
-  ...mapGetters(["GET_WEATHER_CART"]),
   methods: {
-    emitDeleteWeatherFromCart() {
-      this.$emit("deleteWeatherFromCart");
-      this.closeModal();
-    },
     closeModal() {
       this.$emit("close");
     },
     deleteWeather(name) {
       this.$store.dispatch("DELETE_WEATHER_FROM_CART", name);
+      this.closeModal();
+      console.log(`deleted city – ${name}`);
     },
   },
 };
