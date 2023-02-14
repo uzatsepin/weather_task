@@ -2,27 +2,44 @@
   <div class="favourites">
     <h2 class="favourites__title">Тут ваші будуть обрані картки з погодою</h2>
     <div class="favourites__inner">
-      <div
-        class="favourites__cards"
-        v-for="card in GET_WEATHER_CART"
-        :key="card.id"
-      >
-        <WeatherComponent v-if="card" :weatherData="card" />
-      </div>
+      <WeatherComponent
+        v-for="data in weatherData"
+        :weatherData="data"
+        :key="data.name"
+        :isStatic="true"
+        :isFavourite="true"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { getWeatherByCityFromInput } from "@/api/weatherAPI";
 import WeatherComponent from "@/components/WeatherComponent.vue";
-import { mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      coorinatesList: [],
+      weatherData: [],
+    };
+  },
   name: "AboutView",
   components: {
     WeatherComponent,
   },
-  computed: {
-    ...mapGetters(["GET_WEATHER_CART"]),
+  async created() {
+    this.coorinatesList = JSON.parse(localStorage.getItem("citiesCoord"));
+
+    this.coorinatesList?.forEach(async (coorinates) => {
+      this.weatherData.push(
+        (
+          await getWeatherByCityFromInput(
+            coorinates.latitude,
+            coorinates.longitude
+          )
+        ).data
+      );
+    });
   },
 };
 </script>

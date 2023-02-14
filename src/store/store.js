@@ -1,95 +1,55 @@
 import { createApp } from "vue";
 import { createStore } from "vuex";
-import { getCity } from "../api/getCityApi.js";
-import getWeatherByIp from "../api/getWeatherByIp.js";
-import getWeatherFromInput from "@/api/getWeatherFromInput.js";
 
 const store = createStore({
   state: {
-    cityInput: "",
-    citiesList: "",
-    selectedCity: "",
-    weatherByIp: [],
+    weatherCardsCount: 0,
     weatherCards: [],
-    isWeatherCardLoading: false,
-    isCitiesLoading: false,
-    emptyCard: [],
+    maxWeatherCardsCount: 5,
   },
   mutations: {
-    UPDATE_INPUT(state, inputText) {
-      state.cityInput = inputText;
-    },
-    SET_CITY_NAME(state, citiesList) {
+    SET_CITIES_LIST(state, citiesList) {
       state.citiesList = citiesList;
     },
-    SET_CITY_FOR_WEATHER: (state, city) => {
-      state.selectedCity = city;
-    },
-    SET_WEATHER_BY_IP: (state, weather) => {
-      state.weatherByIp = weather;
-    },
-    SET_WEATHER_CART: (state, card) => {
+    // SET_WEATHER_BY_IP: (state, weather) => {
+    //   state.weatherCardByIp = weather;
+    // },
+    ADD_WEATHER_CARD: (state, payload) => {
+      state.weatherCardsCount++;
+      const card = {
+        id: state.weatherCardsCount,
+        weatherData: payload.weatherData,
+      };
       state.weatherCards.push(card);
     },
-    SET_WEATHER_TIME: (state, time) => {
-      state.weatherTime = time;
-    },
-    SET_WEATHER_TEMP: (state, temp) => {
-      state.weatherTemp = temp;
-    },
-    REMOVE_WEATHER_FROM_CART: (state, name) => {
-      state.weatherCards = state.weatherCards.filter(
-        (element) => element.name !== name
+    SET_WEATHER_BY_CARD_ID: (state, payload) => {
+      const weatherCard = state.weatherCards.find(
+        (weatherCard) => weatherCard.id === payload.cardId
       );
+      weatherCard.weatherData = payload.updatedWeatherData;
     },
-    SET_IS_CITY_LOADING: (state, status) => {
-      state.isCitiesLoading = status;
-    },
-    SET_IS_CART_LOADING: (state, status) => {
-      state.isWeatherCardLoading = status;
+    REMOVE_CARD: (state, payload) => {
+      state.weatherCards = state.weatherCards.filter(
+        (card) => card.id !== payload.cardId
+      );
     },
   },
   actions: {
-    async GET_CITY_FROM_API({ commit, state }) {
-      commit("SET_IS_CITY_LOADING", true);
-      const citiesList = state?.cityInput;
-      const response = await getCity(citiesList);
-      commit("SET_CITY_NAME", response);
-      commit("SET_IS_CITY_LOADING", false);
-    },
-    async GET_WEATHER_BY_IP({ commit }) {
-      commit("SET_IS_CART_LOADING", true);
-      const response = await getWeatherByIp.getWeatherByIP();
-      commit("SET_WEATHER_BY_IP", response.data);
-      commit("SET_IS_CART_LOADING", false);
-    },
-    async GET_WEATHER_FROM_INPUT({ commit }) {
-      commit("SET_IS_CART_LOADING", true);
-      const response = await getWeatherFromInput.getWeatherFromInput(
-        this.state.selectedCity.latitude,
-        this.state.selectedCity.longitude
-      );
-      commit("SET_WEATHER_CART", response.data);
-      commit("SET_IS_CART_LOADING", false);
-    },
-    DELETE_WEATHER_FROM_CART({ commit }, name) {
-      commit("REMOVE_WEATHER_FROM_CART", name);
-    },
+    // async GET_WEATHER_BY_IP({ commit }) {
+    //   commit("SET_IS_CART_LOADING", true);
+    //   const response = await getWeatherCardByIp();
+    //   commit("SET_WEATHER_BY_IP", response.data);
+    //   commit("SET_IS_CART_LOADING", false);
+    // },
+    // DELETE_WEATHER_FROM_CART({ commit }, name) {
+    //   commit("REMOVE_CARD", name);
+    // },
   },
   getters: {
-    CITY_NAME(state) {
-      return state.citiesList;
-    },
     WEATHER_BY_IP(state) {
-      return state.weatherByIp;
+      return state.weatherCardByIp;
     },
-    GET_CITY_INPUT_NAME(state) {
-      return state.cityInput;
-    },
-    GET_CITY_FOR_WEATHER(state) {
-      return state.selectedCity;
-    },
-    GET_WEATHER_CART(state) {
+    GET_WEATHER_CARDS(state) {
       return state.weatherCards;
     },
     GET_WEATHER_TIME: (state, long, lat) => {
@@ -102,11 +62,8 @@ const store = createStore({
         (x) => x.latitude == lat && x.longitude == long
       )[0];
     },
-    GET_IS_CITY_LOADING: (state) => {
-      return state.isCitiesLoading;
-    },
-    GET_IS_CART_LOADING: (state) => {
-      return state.isWeatherCardLoading;
+    GET_WEATHER_CARDS_COUNT: (state) => {
+      return state.weatherCards.length;
     },
   },
 });

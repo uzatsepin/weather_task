@@ -23,11 +23,10 @@
 .input-weather-results {
   padding: 10px;
   margin: 0;
-  border: 1px solid #eeeeee;
   max-height: 250px;
   height: fit-content;
   overflow: auto;
-  width: 28%;
+  width: 100%;
   border-radius: 1.5rem;
   border-top: none;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -36,7 +35,7 @@
 
 .input-weather__empty {
   text-align: center;
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 .hide {
@@ -78,13 +77,13 @@
 .input-weather-result button:hover {
   box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;
   transform: translateY(-2px);
-  background-color: #2db326;
-  border: 1px solid #2db326;
+  background-color: var(--btn-color);
+  border: 1px solid var(--btn-color);
 }
 
 .input-weather-result.is-active,
 .input-weather-result:hover {
-  background-color: #4aae9b;
+  background-color: var(--btn-color);
   color: white;
 }
 

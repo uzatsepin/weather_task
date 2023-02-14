@@ -29,6 +29,7 @@ p {
   border: 1px solid #e1e1e1;
   border-radius: 0px;
   box-shadow: 3px 3px 6px #e1e1e1;
+  color: var(--color-text);
 }
 
 .logo {
@@ -56,7 +57,7 @@ p {
   transition: all 0.1s ease-in-out;
   border: 1px solid #e1e1e1;
   border-right: none;
-  background-color: #088c74;
+  background-color: var(--btn-color);
   border-radius: 0 0 0 0;
   font-weight: bold;
   color: white;
@@ -66,7 +67,7 @@ p {
   border-right: 1px solid #e1e1e1;
 }
 .nav__link:hover {
-  background-color: #4aae9b;
+  background-color: var(--btn-color-hover);
   color: #fff;
 }
 .router-link-exact-active {

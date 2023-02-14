@@ -7,16 +7,11 @@
             <button class="popup__btn" @click="closeModal">X</button>
             <h3 class="popup__title">
               Ви впевнені, що хочете видалити місто
-              {{ weatherData ? weatherData.name : null }} ?
+              {{ nameToDelete }} ?
             </h3>
           </div>
           <div class="popup__btns">
-            <button
-              class="popup__ok-btn"
-              @click="deleteWeather(`${weatherData ? weatherData.name : null}`)"
-            >
-              Так
-            </button>
+            <button class="popup__ok-btn" @click="deleteCard">Так</button>
             <button class="popup__cancel-btn" @click="closeModal">Ні</button>
           </div>
         </div>
@@ -33,8 +28,12 @@ export default {
       type: Boolean,
       required: true,
     },
-    weatherData: {
-      type: Object,
+    nameToDelete: {
+      type: String,
+      required: true,
+    },
+    cardId: {
+      type: Number,
       required: true,
     },
   },
@@ -42,8 +41,8 @@ export default {
     closeModal() {
       this.$emit("close");
     },
-    deleteWeather(name) {
-      this.$store.dispatch("DELETE_WEATHER_FROM_CART", name);
+    deleteCard() {
+      this.$emit("cardDeleted", this.cardId);
       this.closeModal();
     },
   },

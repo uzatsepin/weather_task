@@ -1,8 +1,5 @@
 <template>
   <div class="input-weather">
-    <label for="town" class="input-weather__title"
-      >Введіть назву міста: (англійська)</label
-    >
     <input
       class="input-weather__input"
       type="text"
@@ -11,78 +8,66 @@
       id="town"
     />
     <ul
-      v-if="!isActive"
+      v-if="isActive"
       class="input-weather-results"
-      :class="{ hide: isActive }"
+      :class="{ hide: !isActive }"
     >
-      <li v-if="GET_IS_CITY_LOADING" class="input-weather__empty">
+      <li class="input-weather__empty" v-if="isLoading">
         <img src="../assets/img/Spinner-1s-200px.svg" alt="Loading" />
       </li>
-      <li
-        v-if="
-          GET_CITY_INPUT_NAME.length > 0 &&
-          !GET_IS_CITY_LOADING &&
-          CITY_NAME.length === 0
-        "
-        class="input-weather__empty"
-      >
+      <li class="input-weather__empty" v-if="false">
         Нічого не знайдено, повторіть спробу
       </li>
       <li
         class="input-weather-result"
-        v-for="city in CITY_NAME"
+        v-for="city in citiesList"
         :key="city.name"
         @click="selectCity(city)"
       >
         <span>{{ city.name }}</span>
-        <button @click="addWeatherToCard">+</button>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import _ from "lodash";
+import { getCitiesByInput } from "@/api/citiesAPI.js";
 export default {
   data() {
     return {
       inputValue: "",
-      isActive: true,
+      isActive: false,
+      citiesList: [],
+      isLoading: false,
     };
   },
   computed: {
-    ...mapGetters([
-      "CITY_NAME",
-      "GET_IS_CITY_LOADING",
-      "GET_CITY_INPUT_NAME",
-      "CITY_NAME",
-    ]),
-    ...mapState({
-      message: (state) => state.updateMessage,
-    }),
+    ...mapGetters(["GET_IS_CITY_LOADING", "GET_CITY_INPUT_NAME"]),
   },
   methods: {
-    ...mapActions(["GET_CITY_FROM_API", "GET_WEATHER_FROM_INPUT"]),
-    updateMessage(e) {
-      this.$store.commit("UPDATE_INPUT", e.target.value);
+    ...mapActions(["GET_CITY_FROM_API", "GET_WEATHER_BY_CITY_FROM_INPUT"]),
+    updateMessage() {
       if (this.inputValue.length > 2) {
-        this.debouncedGetCityFromAPI();
+        this.debouncedgetCitiesByInputFromAPI();
       }
     },
-    debouncedGetCityFromAPI: _.debounce(function () {
-      this.GET_CITY_FROM_API();
-      this.isActive = false;
-    }, 500),
-
-    selectCity(city) {
-      this.$store.commit("SET_CITY_FOR_WEATHER", city);
-      this.inputValue = "";
-      this.$store.commit("SET_CITY_NAME", []);
+    async getCitiesList() {
+      this.citiesList = await getCitiesByInput(this.inputValue);
       this.isActive = true;
-      this.GET_WEATHER_FROM_INPUT(city);
     },
-    addWeatherToCard() {},
+    selectCity(city) {
+      this.$emit("citySelected", city);
+      this.citiesList = [];
+      this.isActive = false;
+    },
+    debouncedgetCitiesByInputFromAPI: _.debounce(function () {
+      this.isLoading = true;
+      this.getCitiesList();
+      this.isActive = false;
+      this.isLoading = false;
+    }, 500),
   },
 };
 </script>

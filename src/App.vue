@@ -6,11 +6,8 @@
     <nav class="nav">
       <router-link class="nav__link" to="/">Головна</router-link>
       <router-link class="nav__link" to="/favourites"
-        >Обране
-        <span v-if="GET_WEATHER_CART.length >= 1"
-          >({{ GET_WEATHER_CART.length }})</span
-        ></router-link
-      >
+        >Обране <span></span
+      ></router-link>
     </nav>
     <main class="main">
       <router-view />
@@ -22,7 +19,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["GET_WEATHER_CART"]),
+    ...mapGetters(["GET_WEATHER_CART_BY_ID"]),
   },
 };
 </script>
