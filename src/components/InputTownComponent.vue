@@ -12,10 +12,24 @@
       class="input-weather-results"
       :class="{ hide: !isActive }"
     >
+<<<<<<< HEAD
       <li class="input-weather__empty" v-if="isLoading">
         <img src="../assets/img/Spinner-1s-200px.svg" alt="Loading" />
       </li>
       <li class="input-weather__empty" v-if="false">
+=======
+      <li v-if="GET_IS_CITY_LOADING" class="input-weather__empty">
+        <img src="../assets/img/Spinner-1s-200px.svg" alt="Loading" />
+      </li>
+      <li
+        v-if="
+          GET_CITY_INPUT_NAME.length > 0 &&
+          !GET_IS_CITY_LOADING &&
+          CITY_NAME.length === 0
+        "
+        class="input-weather__empty"
+      >
+>>>>>>> main
         Нічого не знайдено, повторіть спробу
       </li>
       <li
@@ -44,7 +58,19 @@ export default {
     };
   },
   computed: {
+<<<<<<< HEAD
     ...mapGetters(["GET_IS_CITY_LOADING", "GET_CITY_INPUT_NAME"]),
+=======
+    ...mapGetters([
+      "CITY_NAME",
+      "GET_IS_CITY_LOADING",
+      "GET_CITY_INPUT_NAME",
+      "CITY_NAME",
+    ]),
+    ...mapState({
+      message: (state) => state.updateMessage,
+    }),
+>>>>>>> main
   },
   methods: {
     ...mapActions(["GET_CITY_FROM_API", "GET_WEATHER_BY_CITY_FROM_INPUT"]),

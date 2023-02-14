@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+<<<<<<< HEAD
     <button class="weather-add-card-btn" @click="addAnEmptyCard">
       Додати місто
     </button>
@@ -26,6 +27,27 @@
             @onCardDelete="onCardDelete"
           />
         </div>
+=======
+    <InputTownComponent />
+    <div class="weather__view" v-if="WEATHER_BY_IP">
+      <h3 class="weather__view-title">
+        *Інформація про погоду взята на основі вашої IP-адерси
+      </h3>
+      <WeatherComponent
+        v-if="WEATHER_BY_IP"
+        :weatherData="WEATHER_BY_IP"
+        :isStatic="true"
+      />
+    </div>
+    <h3 class="weather__view-title">Картки з обраними містами:</h3>
+    <div class="weather__inner" v-if="GET_WEATHER_CART.length">
+      <div
+        class="weather__cards"
+        v-for="card in GET_WEATHER_CART"
+        :key="card.id"
+      >
+        <WeatherComponent v-if="card" :weatherData="card" />
+>>>>>>> main
       </div>
     </div>
   </div>
